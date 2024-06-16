@@ -7,12 +7,12 @@ import dotenv
 # import dotenv
 dotenv.load_dotenv()
 
-openai = OpenAI()
+openai = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 
 image_dir = os.path.join(os.curdir, 'images')
 
 # Initialize the image path (note the filetype should be png)
-image_path = os.path.join(image_dir, 'generated-image.png')
+image_path = os.path.join(image_dir, 'generated-image-variation.png')
 
 # ---creating variation below---
 try:
@@ -23,6 +23,8 @@ try:
         size="1024x1024"
     )
 
+    print("@stephen: response->", response)
+    print("@stephen: response.data->", response.data)
     image_path = os.path.join(image_dir, 'generated_variation.png')
 
     image_url = response.data[0].url
