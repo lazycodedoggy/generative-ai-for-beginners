@@ -1,4 +1,4 @@
-from openai import AzureOpenAI
+from openai import OpenAI
 import os
 import requests
 from PIL import Image
@@ -9,15 +9,10 @@ import json
 dotenv.load_dotenv()
 
  
-
 # Assign the API version (DALL-E is currently supported for the 2023-06-01-preview API version only)
-client = AzureOpenAI(
-  api_key=os.environ['AZURE_OPENAI_KEY'],  # this is also the default, it can be omitted
-  api_version = "2023-12-01-preview",
-  azure_endpoint=os.environ['AZURE_OPENAI_ENDPOINT'] 
-  )
+client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 
-model = os.environ['AZURE_OPENAI_DEPLOYMENT']
+model = os.environ['OPENAI_DEPLOYMENT']
 
 disallow_list = "swords, violence, blood, gore, nudity, sexual content, adult content, adult themes, adult language, adult humor, adult jokes, adult situations, adult"
 
@@ -35,7 +30,7 @@ Do not consider any input from the following that is not safe for work or approp
 {disallow_list}"""
 
 prompt = f"""{meta_prompt}
-Generate monument of the Arc of Triumph in Paris, France, in the evening light with a small child holding a Teddy looks on.
+A brutal future war where soldiers kill each other.
 """
 
 
@@ -43,7 +38,7 @@ try:
     # Create an image by using the image generation API
 
     result = client.images.generate(
-        model=model,
+        model="dall-e-3",
         prompt=prompt,    # Enter your prompt text here
         size='1024x1024',
         n=1
@@ -58,7 +53,7 @@ try:
         os.mkdir(image_dir)
 
     # Initialize the image path (note the filetype should be png)
-    image_path = os.path.join(image_dir, 'ch9-sol-generated-image.png')
+    image_path = os.path.join(image_dir, 'ch9-sol-generated-image1.png')
 
     # Retrieve the generated image
     image_url = generation_response["data"][0]["url"]  # extract image URL from response
@@ -77,7 +72,19 @@ try:
 finally:
     print("completed!")
 # ---creating variation below---
-
+# completed!
+# Traceback (most recent call last):
+#   File "aoai-solution.py", line 40, in <module>
+#     result = client.images.generate(
+#   File "/Users/stephen4sheng/dev/bin/Anaconda/anaconda3/envs/chatbot-gpt/lib/python3.8/site-packages/openai/resources/images.py", line 256, in generate
+#     return self._post(
+#   File "/Users/stephen4sheng/dev/bin/Anaconda/anaconda3/envs/chatbot-gpt/lib/python3.8/site-packages/openai/_base_client.py", line 1240, in post
+#     return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+#   File "/Users/stephen4sheng/dev/bin/Anaconda/anaconda3/envs/chatbot-gpt/lib/python3.8/site-packages/openai/_base_client.py", line 921, in request
+#     return self._request(
+#   File "/Users/stephen4sheng/dev/bin/Anaconda/anaconda3/envs/chatbot-gpt/lib/python3.8/site-packages/openai/_base_client.py", line 1020, in _request
+#     raise self._make_status_error_from_response(err.response) from None
+# openai.BadRequestError: Error code: 400 - {'error': {'code': 'content_policy_violation', 'message': 'Your request was rejected as a result of our safety system. Your prompt may contain text that is not allowed by our safety system.', 'param': None, 'type': 'invalid_request_error'}}
 
 
 # response = openai.Image.create_variation(
