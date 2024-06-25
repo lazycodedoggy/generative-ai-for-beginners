@@ -83,6 +83,7 @@ The following resources provide step-by-step tutorials to walk you through a rea
 ## Assignment
 
 Select one of the tutorials above and walk through them. _We may replicate a version of these tutorials in Jupyter Notebooks in this repo for reference only. Please use the original sources directly to get the latest versions_.
+url https://github.com/openai/openai-cookbook/
 
 ## Great Work! Continue Your Learning.
 
